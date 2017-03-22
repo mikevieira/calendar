@@ -11,9 +11,10 @@
 <%= link_to "Previous", start_date: date_range.first - 1.day %>
 <!-- change this from number to name of month -->
 <%= start_date.month %> 
+<%= start_date.year %>
 <%= link_to "Next", start_date: date_range.last + 1.day %>
 
-<table>
+<table class="table table-striped">
   <thead>
    <tr>
      <th>Sun</th>
@@ -31,6 +32,14 @@
      <% week.each do |day| %>
       <td>
         <%= day %>
+        <% @tasks.select{|m| m.datetime.to_date == day}.each do |meeting| %>
+          <div>
+              <%= meeting.name %>
+               <i><%= meeting.notes %></i>
+          </div>
+      <% end %>
+
+
       </td>
      <% end %>
     </tr>
@@ -38,8 +47,12 @@
   </tbody>
 </table>
 
+<br/>
+<br/>
 
-<div>
+<b>Add a <%=link_to "New Task", new_task_path %> to the calendar</b>
+
+<!-- div>
   <h2 class="text-center">My tasks</h2>
    
    <% @tasks.each do |task| %> 
@@ -51,4 +64,4 @@
    <br/>
    <% end %>
 
-</div>
+</div> -->
