@@ -14,4 +14,26 @@
  *
  *= require_tree .
  *= require_self
+ *= require jquery-ui
  */
+
+
+@media (min-width: 1200px) {
+  .seven-cols .col-md-1,
+  .seven-cols .col-sm-1,
+  .seven-cols .col-lg-1 {
+    width: 14.285714285714285714285714285714%;
+    *width: 14.285714285714285714285714285714%;
+  }
+}
+
+/* 14% = 100% (full-width row) divided by 7 */
+
+
+/*.cells {
+height: 6.250em;               
+}*/
+
+.day {
+    text-align: right;
+} 

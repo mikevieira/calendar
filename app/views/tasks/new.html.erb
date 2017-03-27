@@ -3,7 +3,8 @@
 
   <%= simple_form_for @task do |f| %>
     <%= f.input :name %>
-    <%= f.input :datetime %>
+    <%= f.input :date %>
+    <%= f.input :time %>
     <%= f.input :notes %>
     <%= f.submit 'Add task', class: 'btn btn-warning' %>
   <% end %> 

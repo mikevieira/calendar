@@ -1,18 +1,39 @@
 
 <script >
-  function allowDrop(ev) {
-    ev.preventDefault();
-  }
-  
-   function drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
-   }
 
-   function drop(ev) {
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    ev.target.appendChild(document.getElementById(data));
-   }
+$(document).ready(function() {
+    $('.tasks').draggable({
+        helper: 'clone'
+    });
+
+    $('.cells').droppable({ 
+      tolerance: 'pointer', 
+      accept: '.tasks',
+      drop: function(event, ui){
+       
+         //   var taskurl = "/tasks/"+$(ui.draggable).attr('data-item-id');
+         //   var date = $(ui.draggable).attr('data-date');
+         //   var day = $(this).attr('data-day');
+
+         // $.ajax({
+         //   type: 'PUT',
+         //   url: localhost:3030/tasks/1,
+         //   headers: {contentType: 'application/json'},
+         //   data: { 
+         //       "date": JSON.stringify(day) }, 
+
+         //    'success' :function() {
+
+            var droppedItem = $(ui.draggable).clone();
+            $(this).append(droppedItem);
+            $(ui.draggable).remove();
+         
+        }
+     });
+    });
+ 
+
+  
 
 </script>
 
@@ -33,7 +54,9 @@
 <%= start_date.year %>
 <%= link_to "Next", start_date: date_range.last + 1.day %>
 
-<table class="table table-striped">
+
+<table class="table table-striped table table-bordered">
+
   <thead>
    <tr>
      <th>Sun</th>
@@ -47,21 +70,26 @@
   </thead>
   <tbody>
   <% date_range.each_slice(7) do |week| %>
-    <tr>
+    
+     <tr class="">
      <% week.each do |day| %>
-      <td id= "td1" ondrop="drop(event)" ondragover="allowDrop(event)">
-        <%= day %>
-        <% @tasks.select{|m| m.datetime.to_date == day}.each do |meeting| %>
-          <div id= "drag1" draggable ="true" ondragstart="drag(event)">
-              <%= meeting.name %>
-               <i><%= meeting.notes %></i>
+           
+      <td class= 'col-lg-1 col-md-3 col-sm-4 col-xs-6' data-day=<%= day %>> <!-- td -->
+        <h5 class= 'day'><%= shortday(day) %></h5>
+        <% @tasks.select{|m| m.date == day}.each do |task| %>
+      
+          <div class="tasks" data-item-id=<%=task.id%> data-date=<%=task.date%>>
+              <%= task.name %>
+              <%= task.notes %>
           </div>
-      <% end %>
+         <% end %>
 
 
-      </td>
+        </td> <!-- td -->
+      
      <% end %>
     </tr>
+    </div>
    <% end %>
   </tbody>
 </table>
@@ -71,16 +99,3 @@
 
 <b>Add a <%=link_to "New Task", new_task_path %> to the calendar</b>
 
-<!-- div>
-  <h2 class="text-center">My tasks</h2>
-   
-   <% @tasks.each do |task| %> 
-   <p>
-       <h3><%= task.name %></h3><br/>
-       <i><%= task.datetime %></i><br/>
-       <b><%= task.notes %></b>
-  </p>
-   <br/>
-   <% end %>
-
-</div> -->
