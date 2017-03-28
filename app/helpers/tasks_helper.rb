@@ -5,4 +5,8 @@ def shortday(date)
   return day
 end 
 
+def idcreate(date)
+  id = date.to_s.tr('-','')
+  return id
+ end 
 end

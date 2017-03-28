@@ -2,6 +2,7 @@
 <script >
 
 $(document).ready(function() {
+   
     $('.tasks').draggable({
         helper: 'clone'
     });
@@ -11,27 +12,44 @@ $(document).ready(function() {
       accept: '.tasks',
       drop: function(event, ui){
        
-         //   var taskurl = "/tasks/"+$(ui.draggable).attr('data-item-id');
-         //   var date = $(ui.draggable).attr('data-date');
-         //   var day = $(this).attr('data-day');
+         var id = $(ui.draggable).attr('id');
+         var taskinfo = $(ui.draggable).html();
+         var day = $(this).attr('id');
+         
 
          // $.ajax({
          //   type: 'PUT',
          //   url: localhost:3030/tasks/1,
-         //   headers: {contentType: 'application/json'},
+         //
          //   data: { 
          //       "date": JSON.stringify(day) }, 
-
-         //    'success' :function() {
 
             var droppedItem = $(ui.draggable).clone();
             $(this).append(droppedItem);
             $(ui.draggable).remove();
+
+
+
+           //  $(ui.draggable).remove();
+           // $('#' + day).append('<div id="'+ id +'">' + taskinfo +'</div>');
+           //   $('div#' +id).draggable({
+           //    helper: 'clone'
+           //   });
+             
+
+          
+
+            // alert(day);
+
+
+
          
         }
      });
+     
     });
  
+ // $('[data-customerID="22"]')
 
   
 
@@ -40,59 +58,57 @@ $(document).ready(function() {
 
 </header>
   
-  <h1>Calendar of Fun</h1>
+<!--   <h1>Calendar of Fun</h1> -->
 
   
 </header>
-<!-- .to_date converts to string -->
+
+<!-- Rails to establish dates - .to_date converts to string -->
 <% start_date = params.fetch(:start_date, Date.today).to_date %>
 <% date_range = (start_date.beginning_of_month.beginning_of_week..start_date.end_of_month.end_of_week).to_a %>
 
-<%= link_to "Previous", start_date: date_range.first - 1.day %>
+<h4 class= 'text-center'><%= link_to "Previous", start_date: date_range.first - 1.day %>
 <!-- change this from number to name of month -->
 <%= start_date.month %> 
 <%= start_date.year %>
-<%= link_to "Next", start_date: date_range.last + 1.day %>
+<%= link_to "Next", start_date: date_range.last + 1.day %></h4>
+<div class= 'super'>
+<table class="container table table-striped table table-bordered">
 
-
-<table class="table table-striped table table-bordered">
-
-  <thead>
-   <tr>
-     <th>Sun</th>
-     <th>Mon</th>
-     <th>Tues</th>
-     <th>Wed</th>
-     <th>Thurs</th>
-     <th>Fri</th>
-     <th>Sat</th>
+  <thead >
+   <tr class="row seven-cols">
+     <th class="col">Sun</th>
+     <th class="col">Mon</th>
+     <th class="col">Tues</th>
+     <th class="col">Wed</th>
+     <th class="col">Thurs</th>
+     <th class="col">Fri</th>
+     <th class="col">Sat</th>
     </tr>
   </thead>
   <tbody>
   <% date_range.each_slice(7) do |week| %>
     
-     <tr class="">
+     <tr class="row seven-cols">
      <% week.each do |day| %>
            
-      <td class= 'col-lg-1 col-md-3 col-sm-4 col-xs-6' data-day=<%= day %>> <!-- td -->
+      <td class='cells col' id=<%= idcreate(day) %> data-day=<%= day %>> <!-- td -->
         <h5 class= 'day'><%= shortday(day) %></h5>
         <% @tasks.select{|m| m.date == day}.each do |task| %>
-      
-          <div class="tasks" data-item-id=<%=task.id%> data-date=<%=task.date%>>
+          <div class="tasks" id=<%=task.id%> data-date=<%=task.date%>>
               <%= task.name %>
               <%= task.notes %>
           </div>
          <% end %>
-
-
         </td> <!-- td -->
       
      <% end %>
     </tr>
-    </div>
    <% end %>
   </tbody>
 </table>
+</div>
+
 
 <br/>
 <br/>
