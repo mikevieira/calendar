@@ -4,10 +4,19 @@
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href= http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/themes/smoothness/jquery-ui.css /> 
+<!--   Makes the dialog css show up correctly -->
 
 <script >
 $(document).ready(function() {
-   
+  
+  // $('div.task > i').hide();
+  // $('div.task > i').hover(function(){
+  // $('div.task > i').show();
+  //   }, function(){
+  //    $('.icon').hide();
+  //   });          
+ 
     $('.tasks').draggable({
         helper: 'clone'
     });
@@ -22,40 +31,47 @@ $(document).ready(function() {
          var day = $(this).attr('id');
          
 
-         // $.ajax({
-         //   type: 'PUT',
-         //   url: localhost:3030/tasks/1,
-         //
-         //   data: { 
-         //       "date": JSON.stringify(day) }, 
-
+         $.ajax({type: 'PUT', url: "http://localhost:3030/tasks/" + id, data: { task: {"date": day }}});
+            
             var droppedItem = $(ui.draggable).clone();
             $(this).append(droppedItem);
+            $(droppedItem).draggable({
+                      helper: 'clone'
+                  });
             $(ui.draggable).remove();
+   
 
 
 
-           //  $(ui.draggable).remove();
-           // $('#' + day).append('<div id="'+ id +'">' + taskinfo +'</div>');
-           //   $('div#' +id).draggable({
-           //    helper: 'clone'
-           //   });
-             
+          }
+        });
+       });
 
-          
-
-            // alert(day);
-
-
-
-         
-        }
-     });
-     
+    
+$(document).ready(function() {
+  
+  $('.icon').hide();
+  $('.tasks').hover(function(){
+  $('.icon').show();
+    }, function(){
+     $('.icon').hide();
     });
-
+   });
+     
+ $(document).ready(function() {   
+    $(".icon").click(function() {
+     $( "#dialog" ).dialog({
+        title: "Update Task",
+        width: 300,
+        height: 200,
+        position: { my: 'top', at: 'top' },
+     });
+       
+    });
+  });
   
 
+            // alert(day);
 </script>
 
 
@@ -96,11 +112,14 @@ $(document).ready(function() {
      <% week.each do |day| %>
            
       <td class='cells col' id=<%= idcreate(day) %> data-day=<%= day %>> <!-- td -->
-        <h5 class= 'day'><%= shortday(day) %></h5>
+        <h5 class= 'day'><%= shortday(day) %></h5> 
         <% @tasks.select{|m| m.date == day}.each do |task| %>
           <div class="tasks" id=<%=task.id%> data-date=<%=task.date%>>
               <%= task.name %>
               <%= task.notes %>
+              
+              <i class="fa fa-pencil-square-o float-right icon" aria-hidden="true"></i>
+              <i class="fa fa-trash float-right icon" aria-hidden="true"></i>
           </div>
          <% end %>
         </td> <!-- td -->
@@ -117,4 +136,8 @@ $(document).ready(function() {
 <br/>
 
 <b>Add a <%=link_to "New Task", new_task_path %> to the calendar</b>
+
+<div id="dialog" title="Basic dialog">
+  <p>This is the default dialog which is useful for displaying information. The dialog window can be moved, resized and closed with the 'x' icon.</p>
+</div>
 

@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-
+skip_before_filter :verify_authenticity_token
 
 def index
   @tasks = Task.all 
@@ -19,7 +19,7 @@ def create
 end 
 
 def update
-  @task = task.find(params[:id])
+  @task = Task.find(params[:id])
   @task.update_attributes(task_params)
 end 
 
