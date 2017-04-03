@@ -13,6 +13,11 @@ def show
   @task =Task.find(params[:id])
 end 
 
+
+def edit 
+  @task =Task.find(params[:id])
+end
+
 def create
   Task.create(task_params) 
   redirect_to root_path 
