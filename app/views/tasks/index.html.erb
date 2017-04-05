@@ -9,13 +9,7 @@
 
 <script >
 $(document).ready(function() {
-  
-  // $('div.task > i').hide();
-  // $('div.task > i').hover(function(){
-  // $('div.task > i').show();
-  //   }, function(){
-  //    $('.icon').hide();
-  //   });          
+         
  
     $('.tasks').draggable({
         helper: 'clone'
@@ -34,14 +28,14 @@ $(document).ready(function() {
          $.ajax({type: 'PUT', url: "http://localhost:3030/tasks/" + id, data: { task: {"date": day }}});
             
             var droppedItem = $(ui.draggable).clone();
-            $(this).append(droppedItem);
+            $(".linkdiv", this).prepend(droppedItem);
             $(droppedItem).draggable({
                       helper: 'clone'
                   });
             $(ui.draggable).remove();
    
 
-
+          // $(this).append(droppedItem);
 
           }
         });
@@ -49,18 +43,18 @@ $(document).ready(function() {
 
     
 $(document).ready(function() {
-  $('.icon').hide();  
+  $('.icon, .iconpencil').hide();  
   $('.tasks').hover(function(){  
-  $('.icon').show();  
+  $('.icon, .iconpencil', this).show(0);  
     }, function(){
-     $('.icon').hide(); 
+     $('.icon, .iconpencil', this).hide(0); 
     });
    });
 
-     
+//open dialog, give dialog data-id of task  
  $(document).ready(function() {   
-    $(".icon").click(function() {
-      var newid = $(".icon").attr('id');  
+    $(".iconpencil").click(function() {
+      var newid = $(".iconpencil").attr('id');  
     $("#dialog").attr("data-id","newid");
      $( "#dialog" ).dialog({
         title: "Update Task",
@@ -72,13 +66,13 @@ $(document).ready(function() {
     });
   });
   
-
+//make body of date cell clickable for new task 
 $(document).ready(function() { 
 $(".linkdiv").click(function() {
   window.location = $(this).data("link")
    })
  });
-
+//make header of date cell clickable for new task 
 $(document).ready(function() { 
 $(".dateday").click(function() {
   window.location = $(this).data("link")
@@ -86,9 +80,7 @@ $(".dateday").click(function() {
  });
 
 //        alert(newid);
-$('#mylink > div').click(function(e){
-  e.preventDefault();
-});
+
             
 </script>
 
@@ -106,7 +98,7 @@ $('#mylink > div').click(function(e){
 
 <h4 class= 'text-center'><%= link_to "Previous", start_date: date_range.first - 1.day %>
 <!-- change this from number to name of month -->
-<%= start_date.month %> 
+<%= get_month_name(start_date.month) %> 
 <%= start_date.year %>
 <%= link_to "Next", start_date: date_range.last + 1.day %></h4>
 <div class= 'super'>
@@ -134,26 +126,20 @@ $('#mylink > div').click(function(e){
       <td class='cells col' id=<%= idcreate(day) %> data-day=<%= day %> > 
       <div class = "dateday" data-link= <%=link_to = new_task_path %>>      
        <h5 class = "float-right" > <%= shortday(day) %></h5>
-       </div>
+        </div>
 
-      
-      
         <% @tasks.select{|m| m.date == day}.each do |task| %>
-          
-          <div class="tasks" id=<%=task.id%> data-date=<%=task.date%>>
+             <div class="tasks" id=<%=task.id%> data-date=<%=task.date%>>
               <%= task.name %>
               <%= task.notes %>
               
-              <i class="fa fa-pencil-square-o float-right icon pencil" aria-hidden="true" id=<%=task.id%> ></i>
+              <i class="fa fa-pencil-square-o float-right iconpencil" aria-hidden="true" id=<%=task.id%> ></i>
 
               <i class="fa fa-trash float-right icon trash" aria-hidden="true"></i>
-          </div>
-
-          
+           </div>
+           
          <% end %>
-          <div class="linkdiv" data-link= <%=link_to = new_task_path %>>
-          <br/>
-          <br/>
+           <div class="linkdiv" data-link= <%=link_to = new_task_path %>>
           </div>
         </td> <!-- td -->
       
@@ -170,11 +156,14 @@ $('#mylink > div').click(function(e){
 
 <b>Add a <%=link_to "New Task", new_task_path %> to the calendar</b>
 
+<!-- dialog box -->
 <div id="dialog" title="Basic dialog" data-id="">
   <p> This is a dialog box 
   </p>
      
   </div>
 
-<!-- url: edit_task_path(task.id), -->
-<!-- data-link= <%=link_to=new_task_path %> -->
+
+  <!--  link_to 'Delete task', task, method: :delete -->
+
+

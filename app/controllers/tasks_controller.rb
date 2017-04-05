@@ -28,6 +28,12 @@ def update
   @task.update_attributes(task_params)
 end 
 
+def destroy
+  @task = Task.find(params[:id])
+  @task.destroy
+  flash[:alert] = "Task deleted"
+end
+
 private
 
   def task_params

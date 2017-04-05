@@ -89,9 +89,19 @@ table
     margin-top: -1px;
 }
 
+/*div click boxes*/
 .dateday {
-  min-height: 22px
- 
+  min-height: 1.375em;
+}
+
+.linkdiv {
+  height: 66%;
+  overflow:hidden;
+}
+
+td {
+  display: flex; 
+  flex-direction: column; 
 }
 
 #dialog {
