@@ -1,11 +1,5 @@
 <div class="">
   <h1>Enter Your Task Details</h1>
 
-  <%= simple_form_for @task do |f| %>
-    <%= f.input :name %>
-    <%= f.input :date %>
-    <%= f.input :time %>
-    <%= f.input :notes %>
-    <%= f.submit 'Add task', class: 'btn btn-warning' %>
-  <% end %> 
+  <%= render partial: "form" %>
 </div>

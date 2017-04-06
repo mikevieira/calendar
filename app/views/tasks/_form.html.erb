@@ -1,0 +1,8 @@
+
+<%= simple_form_for @task, :html =>{ class: 'booyah-box col-6 col-offset-3'} do |f| %>
+    <%= f.input :name %>
+    <%= f.input :date %>
+    <%= f.input :time %>
+    <%= f.input :notes %>
+    <%= f.submit class: 'btn btn-warning' %>
+  <% end %>

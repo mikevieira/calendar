@@ -54,9 +54,13 @@ $(document).ready(function() {
 //open dialog, give dialog data-id of task  
  $(document).ready(function() {   
     $(".iconpencil").click(function() {
-      var newid = $(".iconpencil").attr('id');  
-    $("#dialog").attr("data-id","newid");
-     $( "#dialog" ).dialog({
+      console.log($(this).data("edit-url"));
+      var url = $(this).data("edit-url") + ".js"; 
+        $.getScript(url, function(result){
+          console.log(result);
+        });
+
+     $( "#dialog-message" ).dialog({
         title: "Update Task",
         width: 300,
         height: 200,
@@ -133,7 +137,7 @@ $(".dateday").click(function() {
               <%= task.name %>
               <%= task.notes %>
               
-              <i class="fa fa-pencil-square-o float-right iconpencil" aria-hidden="true" id=<%=task.id%> ></i>
+              <i class="fa fa-pencil-square-o float-right iconpencil" aria-hidden="true" id=<%=task.id%> data-edit-url="<%=edit_task_path(task) %>"></i>
 
               <i class="fa fa-trash float-right icon trash" aria-hidden="true"></i>
            </div>
@@ -157,9 +161,10 @@ $(".dateday").click(function() {
 <b>Add a <%=link_to "New Task", new_task_path %> to the calendar</b>
 
 <!-- dialog box -->
-<div id="dialog" title="Basic dialog" data-id="">
+<div id="dialog-message" title="Basic dialog" data-id="">
   <p> This is a dialog box 
   </p>
+  <div id="form-placeholder"></div>
      
   </div>
 
