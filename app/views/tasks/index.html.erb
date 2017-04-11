@@ -71,17 +71,17 @@ $(document).ready(function() {
   });
   
 //make body of date cell clickable for new task 
-$(document).ready(function() { 
-$(".linkdiv").click(function() {
-  window.location = $(this).data("link")
-   })
- });
+// $(document).ready(function() { 
+// $(".linkdiv").click(function() {
+//   window.location = $(this).data("link")
+//    })
+//  });
 //make header of date cell clickable for new task 
-$(document).ready(function() { 
-$(".dateday").click(function() {
-  window.location = $(this).data("link")
-   })
- });
+// $(document).ready(function() { 
+// $(".dateday").click(function() {
+//   window.location = $(this).data("link")
+//    })
+//  });
 
 //        alert(newid);
 
@@ -128,22 +128,28 @@ $(".dateday").click(function() {
         
       
       <td class='cells col' id=<%= idcreate(day) %> data-day=<%= day %> > 
-      <div class = "dateday" data-link= <%=link_to = new_task_path %>>      
+
+      <div class = "dateday"  data-toggle="modal"  data-target ='#newModal'>      
        <h5 class = "float-right" > <%= shortday(day) %></h5>
         </div>
 
         <% @tasks.select{|m| m.date == day}.each do |task| %>
-             <div class="tasks" id=<%=task.id%> data-date=<%=task.date%>>
+            
+             <div class="tasks" id=<%=task.id%>  data-date=<%=task.date%>> 
+             <%=link_to task_path(task.id) do %>
               <%= task.name %>
-              <%= task.notes %>
+              <% end %>
               
-              <i class="fa fa-pencil-square-o float-right iconpencil" aria-hidden="true" id=<%=task.id%> data-edit-url="<%=edit_task_path(task) %>"></i>
+                <i class="fa fa-pencil-square-o float-right iconpencil" aria-hidden="true" data-toggle="modal" data-target="#myModal" data-edit-url="<%=edit_task_path(task) %>"></i>
+                 
+                 <%=link_to task, method: :delete, data:{ confirm: 'Delete this task?'} do %>
+                <i class="fa fa-trash float-right icon trash" aria-hidden="true"> </i>
+                <%end%>
 
-              <i class="fa fa-trash float-right icon trash" aria-hidden="true"></i>
            </div>
            
          <% end %>
-           <div class="linkdiv" data-link= <%=link_to = new_task_path %>>
+           <div class="linkdiv" data-toggle="modal"  data-target ='#newModal'>
           </div>
         </td> <!-- td -->
       
@@ -160,15 +166,69 @@ $(".dateday").click(function() {
 
 <b>Add a <%=link_to "New Task", new_task_path %> to the calendar</b>
 
+<!-- data-link= <%=link_to = new_task_path %>  -->
+
 <!-- dialog box -->
-<div id="dialog-message" title="Basic dialog" data-id="">
+<!-- <div id="dialog-message" title="Basic dialog" data-id="">
   <p> This is a dialog box 
   </p>
   <div id="form-placeholder"></div>
      
+  </div> -->
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button> -->
+
+<!-- Modal update -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Update Task</h4>
+      </div>
+      <div class="modal-body" id="form-placeholder">
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
   </div>
+</div>
 
+ 
 
-  <!--  link_to 'Delete task', task, method: :delete -->
+<!--Modal new -->
+<div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">New Tasks</h4>
+      </div>
+      <div class="modal-body">
+      <%= simple_form_for Task.new,  :html =>{ class: 'booyah-box col-12'} do |f| %>
+    <%= f.input :name %>
+    <%= f.input :date %>
+    <%= f.input :starttime, :label => 'Start Time' %>
+    <%= f.input :time, :label => 'End Time'%>
+    <%= f.input :notes %>
+    <%= f.submit class: 'btn btn-warning' %>
+  <% end %>
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</div>
 
 

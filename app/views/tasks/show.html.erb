@@ -1,1 +1,30 @@
-<h1/> Show me the tasks </h1>
+<div class = "col-6 offset-3 booyah-box">
+<h1 class = "text-center"/> <%=datedisplay(@task.date)%> </h1>
+<hr/>
+
+<% datetoday = @task.date %>
+<!-- sort task date in a variable -->
+<%taskstoday = [] %>
+<% tasksall = Task.all %>
+<% tasksall.each do |day| %>
+  <%if datetoday == day.date %>
+  <% taskstoday << day %>
+  <% end %>
+<% end %>
+
+
+<!-- sort events for the day -->
+<% tasksort = taskstoday.sort_by &:starttime %>
+
+<% tasksort.each do |show| %>
+<div class="card">
+<p><b><%= show.name %></b></p>
+
+<hr class = "boxline"/>
+<p> <b>Time:</b> <%= show.starttime.strftime('%l:%M %p')%> to  <%= show.time.strftime('%l:%M %p')%></p>
+<hr class = "boxline"/>
+<p><b> Notes:</b>
+<%= @task.notes %></p>
+</div>
+<% end %>
+
