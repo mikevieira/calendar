@@ -59,9 +59,14 @@ gem 'simple_form'
 
 gem 'record_tag_helper', '~> 1.0'
 
-# for drag and drop goodness 
+# for drag and drop goodness/datepicker etc 
 gem 'jquery-ui-rails'
 
 # icons
 gem "font-awesome-rails"
+
+#timepicker 
+gem "jquery-timepicker-rails"
+
+
 
