@@ -12,11 +12,10 @@
 //
 
 //= require jquery
-//= require bootstrap-sprockets
-//= require jquery.timepicker.js
 //= require jquery_ujs
 //= require jquery-ui
 //= require bootstrap-sprockets
+//= require jquery.timepicker.js
 //= require_tree .
 
 
