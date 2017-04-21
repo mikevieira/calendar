@@ -68,5 +68,7 @@ gem "font-awesome-rails"
 #timepicker 
 gem "jquery-timepicker-rails"
 
+gem 'rails_12factor', group: :production
+
 
 

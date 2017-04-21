@@ -1,9 +1,4 @@
 
-<link rel="stylesheet" href="jquery-ui.min.css">
-<script src="external/jquery/jquery.js"></script>
-<script src="jquery-ui.min.js"></script
-
-
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <link rel="stylesheet" href= http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.0/themes/smoothness/jquery-ui.css /> 
@@ -190,14 +185,19 @@ $(document).ready(function(){
       <td class='cells col' id=<%= idcreate(day) %> data-day=<%= day %> > 
 
       <div class = "dateday"  data-toggle="modal"  data-target ='#newModal'>      
-       <h5 class = "float-right" > <%= shortday(day) %></h5>
+       <h5 class = "float-right" > 
+       <%= shortday(day) %>
+         
+       </h5>
+
+
         </div>
         <% count = 0 %>
         <% @tasks.select{|m| m.date == day}.each do |task| %>
             <% count = count + 1%>
           
              <div class="tasks" id=<%=task.id%>  data-date=<%=task.date%> data-count=<%=count%>> 
-             <%=link_to task_path(task.id) do %>
+             <%=link_to day_path(task.date) do %>
               <%= task.name %>
               <% end %>
               
